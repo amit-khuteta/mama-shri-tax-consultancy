@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Menu, X, Phone, LogOut, Settings, ShieldCheck } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Menu, X, Phone } from "lucide-react";
 import { useSite } from "../context/SiteContext";
 import MSLogo from "./MSLogo";
 
 export default function Navbar() {
-  const { data, isAdmin, logout } = useSite();
+  const { data } = useSite();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -20,12 +19,6 @@ export default function Navbar() {
     setMenuOpen(false);
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const handleLogout = () => {
-    logout();
-    setMenuOpen(false);
-    navigate("/");
   };
 
   return (
@@ -63,32 +56,13 @@ export default function Navbar() {
             {data.phone1}
           </a>
 
-          {isAdmin ? (
-            <div style={{ display: "flex", gap: "8px" }}>
-              <button
-                className="btn-outline"
-                onClick={() => navigate("/admin/dashboard")}
-                style={{ padding: "8px 16px", fontSize: "13px", display: "flex", alignItems: "center", gap: "6px" }}
-              >
-                <Settings size={14} /> Dashboard
-              </button>
-              <button
-                className="btn-outline"
-                onClick={handleLogout}
-                style={{ padding: "8px 16px", fontSize: "13px", borderColor: "var(--danger)", color: "var(--danger)", display: "flex", alignItems: "center", gap: "6px" }}
-              >
-                <LogOut size={14} /> Logout
-              </button>
-            </div>
-          ) : (
-            <button
-              className="btn-primary desktop-cta"
-              onClick={() => scrollTo("contact")}
-              style={{ padding: "10px 22px", fontSize: "14px" }}
-            >
-              Get Started
-            </button>
-          )}
+          <button
+            className="btn-primary desktop-cta"
+            onClick={() => scrollTo("contact")}
+            style={{ padding: "10px 22px", fontSize: "14px" }}
+          >
+            Get Started
+          </button>
 
           {/* Hamburger — always visible */}
           <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
@@ -112,40 +86,13 @@ export default function Navbar() {
 
           <div className="mobile-divider" />
 
-          {isAdmin ? (
-            <>
-              <button
-                className="mobile-link"
-                onClick={() => { navigate("/admin/dashboard"); setMenuOpen(false); }}
-                style={{ color: "var(--gold)" }}
-              >
-                <Settings size={14} /> Dashboard
-              </button>
-              <button
-                className="mobile-link"
-                onClick={handleLogout}
-                style={{ color: "#FC8181" }}
-              >
-                <LogOut size={14} /> Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                className="mobile-link admin-mobile-link"
-                onClick={() => { navigate("/admin"); setMenuOpen(false); }}
-              >
-                <ShieldCheck size={15} /> Admin Login
-              </button>
-              <button
-                className="btn-primary"
-                onClick={() => { scrollTo("contact"); setMenuOpen(false); }}
-                style={{ margin: "8px 20px" }}
-              >
-                Get Started
-              </button>
-            </>
-          )}
+          <button
+            className="btn-primary"
+            onClick={() => { scrollTo("contact"); setMenuOpen(false); }}
+            style={{ margin: "8px 20px" }}
+          >
+            Get Started
+          </button>
         </div>
       )}
 
@@ -225,16 +172,6 @@ export default function Navbar() {
           height: 1px;
           background: rgba(255,255,255,0.08);
           margin: 8px 24px;
-        }
-        .admin-mobile-link {
-          color: rgba(201,168,76,0.8) !important;
-          font-size: 13px !important;
-          font-weight: 600 !important;
-          opacity: 0.85;
-        }
-        .admin-mobile-link:hover {
-          color: var(--gold) !important;
-          opacity: 1;
         }
         @media (max-width: 1050px) {
           .navbar__links, .nav-phone { display: none; }
