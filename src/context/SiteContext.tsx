@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, ReactNode } from "react";
 
 export interface Service {
   id: string;
@@ -106,34 +106,13 @@ const defaultData: SiteData = {
 
 interface SiteContextType {
   data: SiteData;
-  updateData: (updates: Partial<SiteData>) => void;
-  isAdmin: boolean;
-  login: (username: string, password: string) => boolean;
-  logout: () => void;
 }
 
 const SiteContext = createContext<SiteContextType | null>(null);
 
 export function SiteProvider({ children }: { children: ReactNode }) {
-  const [data, setData] = useState<SiteData>(defaultData);
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  const updateData = (updates: Partial<SiteData>) => {
-    setData(prev => ({ ...prev, ...updates }));
-  };
-
-  const login = (username: string, password: string) => {
-    if (username.trim().toLowerCase() === "amit" && password === "9251087011") {
-      setIsAdmin(true);
-      return true;
-    }
-    return false;
-  };
-
-  const logout = () => setIsAdmin(false);
-
   return (
-    <SiteContext.Provider value={{ data, updateData, isAdmin, login, logout }}>
+    <SiteContext.Provider value={{ data: defaultData }}>
       {children}
     </SiteContext.Provider>
   );
